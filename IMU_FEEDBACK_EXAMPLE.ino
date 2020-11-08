@@ -5,7 +5,7 @@
 #include <utility/imumaths.h>
 /* Set the delay between fresh samples */
 #define BNO055_SAMPLERATE_DELAY_MS (100)
-
+// see: https://photos.app.goo.gl/ynoUNaPzgd3NF1QU9
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
 //                                   id, address
 Adafruit_BNO055 bno = Adafruit_BNO055(-1, 0x28);
