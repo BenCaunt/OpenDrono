@@ -9,7 +9,10 @@
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
 //                                   id, address
 Adafruit_BNO055 bno = Adafruit_BNO055(-1, 0x28);
-Servo ESC;     // create servo object to control the ESC
+Servo FrontLeftESC;     // create servo object to control the ESC
+Servo FrontRightESC; 
+Servo BackLeftESC;
+Servo BackRightESC;
 int pwmSpeed;  // value from the analog pin
 int convertedSpeed; 
 int pwmSpeed_base; 
@@ -20,7 +23,11 @@ long state = 0;
 void setup() {
   Serial.begin(9600);
   // Attach the ESC on pin 9
-  ESC.attach(A0,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
+  FrontLeftESC.attach(A0,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
+  FrontRightESC.attach(A1,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
+  BackLeftESC.attach(A2,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
+  BackRightESC.attach(A3,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
+
   /* Initialise the sensor */
   if(!bno.begin())
   {
@@ -61,7 +68,10 @@ void loop() {
       pwmSpeed = 522 - euler.x();
     }
     convertedSpeed = map(pwmSpeed, 0, 1023, 0, 180);   // scale it to use it with the servo library (value between 0 and 180)
-    ESC.write(convertedSpeed);    // Send the signal to the ESC
+    FrontLeftESC.write(convertedSpeed);    // Send the signal to the ESC
+    FrontRightESC.write(convertedSpeed);
+    BackLeftESC.write(convertedSpeed);
+    BackRightESC.write(convertedSpeed);
     Serial.println(state);
 
     delay(10);
