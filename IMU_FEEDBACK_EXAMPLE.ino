@@ -20,6 +20,71 @@ unsigned long start_of_motor_arm_first = 0;
 unsigned long start_of_motor_arm_second = 0;
 unsigned long time_for_motor_arm = 4000;
 long state = 0;
+
+
+double yawPower = 0;
+double pitchPower = 0;
+double rollPower = 0;
+double heightPower = 0; 
+
+double frontRightSpeed = 0;
+double frontLeftSpeed = 0;
+double backRightSpeed = 0;
+double backLeftSpeed = 0;
+
+double x_angle_calibration = 0;
+double y_angle_calibration = 0;
+double z_angle_calibration = 0;
+
+double pitchAngleWrap(double angle) 
+{
+  return angle;
+}
+
+double yawAngleWrap(double angle)
+{
+  return angle;
+}
+
+double rollAngleWrap(double angle) 
+{
+
+  if (angle < 0) {
+    angle += 360;
+  }
+  return angle;
+}
+
+void heightController(double setpoint, double measurement) {
+
+  double error = setpoint - measurement;
+  heightPower = 0;
+  
+}
+
+
+
+void yawController(double setpoint, double measurement) {
+  
+  double error = setpoint - measurement;
+  yawPower = error;   
+}
+
+void pitchController(double setpoint, double measurement) {
+  
+  double error = setpoint - measurement;
+  pitchPower = error;
+  
+}
+
+void rollController(double setpoint, double measurement) {
+
+  double error = (setpoint - rollAngleWrap(measurement));
+  rollPower = error;
+  
+}
+
+
 void setup() {
   Serial.begin(9600);
   // Attach the ESC on pin 9
@@ -56,6 +121,10 @@ void setup() {
 }
 void loop() {
     if (start_of_motor_arm_first + time_for_motor_arm > millis()) {
+      imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+      x_angle_calibration = euler.x();
+      y_angle_calibration = euler.y();
+      z_angle_calibration = euler.z();
       state = 2;
       pwmSpeed = 0; // reads the value of the potentiometer (value between 0 and 1023)
     } else if (start_of_motor_arm_first + (time_for_motor_arm * 2) > millis()) {
@@ -63,15 +132,22 @@ void loop() {
       pwmSpeed = 522; // reads the value of the potentiometer (value between 0 and 1023)
     } else {
       imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-
+      rollController(z_angle_calibration,euler.z());
+      pitchController(y_angle_calibration,euler.y());
+      yawController(x_angle_calibration, euler.x());
       state = 4;
       pwmSpeed = 522 - euler.x();
     }
+    frontRightSpeed = heightPower - rollPower - pitchPower - yawPower;
+    frontLeftSpeed = heightPower + rollPower - pitchPower + yawPower;
+    backRightSpeed = heightPower - rollPower + pitchPower + yawPower;
+    backLeftSpeed = heightPower + rollPower + pitchPower - yawPower; 
+    
     convertedSpeed = map(pwmSpeed, 0, 1023, 0, 180);   // scale it to use it with the servo library (value between 0 and 180)
-    FrontLeftESC.write(convertedSpeed);    // Send the signal to the ESC
-    FrontRightESC.write(convertedSpeed);
-    BackLeftESC.write(convertedSpeed);
-    BackRightESC.write(convertedSpeed);
+    FrontLeftESC.write(frontLeftSpeed);    // Send the signal to the ESC
+    FrontRightESC.write(frontRightSpeed);
+    BackLeftESC.write(backLeftSpeed);
+    BackRightESC.write(backRightSpeed);
     Serial.println(state);
 
     delay(10);
