@@ -36,6 +36,11 @@ double x_angle_calibration = 0;
 double y_angle_calibration = 0;
 double z_angle_calibration = 0;
 
+
+
+
+
+
 double pitchAngleWrap(double angle) 
 {
   return angle;
@@ -43,6 +48,9 @@ double pitchAngleWrap(double angle)
 
 double yawAngleWrap(double angle)
 {
+  if (angle < 110) {
+    angle = 200 - angle;
+  }
   return angle;
 }
 
@@ -66,7 +74,7 @@ void heightController(double setpoint, double measurement) {
 
 void yawController(double setpoint, double measurement) {
   
-  double error = setpoint - measurement;
+  double error = setpoint - yawAngleWrap(measurement);
   yawPower = error;   
 }
 
@@ -120,8 +128,9 @@ void setup() {
 
 }
 void loop() {
+    imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+
     if (start_of_motor_arm_first + time_for_motor_arm > millis()) {
-      imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
       x_angle_calibration = euler.x();
       y_angle_calibration = euler.y();
       z_angle_calibration = euler.z();
@@ -131,7 +140,6 @@ void loop() {
       state = 3;
       pwmSpeed = 522; // reads the value of the potentiometer (value between 0 and 1023)
     } else {
-      imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
       rollController(z_angle_calibration,euler.z());
       pitchController(y_angle_calibration,euler.y());
       yawController(x_angle_calibration, euler.x());
@@ -142,13 +150,26 @@ void loop() {
     frontLeftSpeed = heightPower + rollPower - pitchPower + yawPower;
     backRightSpeed = heightPower - rollPower + pitchPower + yawPower;
     backLeftSpeed = heightPower + rollPower + pitchPower - yawPower; 
+
     
-    convertedSpeed = map(pwmSpeed, 0, 1023, 0, 180);   // scale it to use it with the servo library (value between 0 and 180)
     FrontLeftESC.write(frontLeftSpeed);    // Send the signal to the ESC
     FrontRightESC.write(frontRightSpeed);
     BackLeftESC.write(backLeftSpeed);
     BackRightESC.write(backRightSpeed);
     Serial.println(state);
-
+    Serial.print("heightPower is: ");
+    Serial.println(heightPower);
+    Serial.print("rollPower is: ");
+    Serial.println(rollPower);
+    Serial.print("pitchPower is: ");
+    Serial.println(pitchPower);
+    Serial.print("yawPower is: ");
+    Serial.println(yawPower);
+    Serial.print("x: ");
+    Serial.print(euler.x());
+    Serial.print(" y: ");
+    Serial.print(euler.y());
+    Serial.print(" z: ");
+    Serial.print(euler.z());
     delay(10);
 }
