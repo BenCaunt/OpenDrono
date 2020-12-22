@@ -4,8 +4,7 @@
 https://cad.onshape.com/documents/5a39f1ee6e81977bc9495c99/w/998eaf910537d694b83bb4dd/e/3f6d457c204f112068c093ae
 
 
-This repository contains CAD and code for a completely open sourced drone project.   
-
+A Free to use, Fully Open Sourced UAV
 
 This project also contains gerber files for making the OpenDrono Printed Circuit Board.  This helps ensure wiring is cleaner and disconnections occur less often.  
 ![Cad Screenshot](https://user-images.githubusercontent.com/19732253/102846319-a6311500-43dd-11eb-8b7d-f3f5aee82713.PNG)
