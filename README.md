@@ -11,7 +11,13 @@ This project also contains gerber files for making the OpenDrono Printed Circuit
 ![Cad Screenshot](https://user-images.githubusercontent.com/19732253/102846319-a6311500-43dd-11eb-8b7d-f3f5aee82713.PNG)
 
 
+```c
+    frontRightSpeed = heightPower - rollPower - pitchPower - yawPower;
+    frontLeftSpeed = heightPower + rollPower - pitchPower + yawPower;
+    backRightSpeed = heightPower - rollPower + pitchPower + yawPower;
+    backLeftSpeed = heightPower + rollPower + pitchPower - yawPower; 
 
+```
 
 
 
