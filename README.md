@@ -11,20 +11,6 @@ This project also contains gerber files for making the OpenDrono Printed Circuit
 ![Cad Screenshot](https://user-images.githubusercontent.com/19732253/102846319-a6311500-43dd-11eb-8b7d-f3f5aee82713.PNG)
 
 
-```c
-    frontRightSpeed = heightPower - rollPower - pitchPower - yawPower;
-    frontLeftSpeed = heightPower + rollPower - pitchPower + yawPower;
-    backRightSpeed = heightPower - rollPower + pitchPower + yawPower;
-    backLeftSpeed = heightPower + rollPower + pitchPower - yawPower; 
-
-```
-
-
-
-
-# Disclaimer 
-This project is in its infancy and nearly everything is subject to massive overhauls
-
 ### Project Progress
 - [x] Initial CAD prototype completed 
 - [x] Code to test motor controllers completed 
@@ -36,3 +22,22 @@ This project is in its infancy and nearly everything is subject to massive overh
 - [ ] Brainstorm localization methods 
 - [ ] Brainstorm perception methods (CV, distance sensors, etc) 
 - [ ] Implement Model Predictive Controller 
+
+
+
+
+# Disclaimer 
+This project is in its infancy and nearly everything is subject to massive overhauls
+
+
+While testing, make sure your OpenDrono's propellers are off to ensure your safety.  Then adjust the + and - signs in the motor mixing section of the code (such as the following).  This makes sure that the feedback from each fo the individual controllers moves the drone in the correct direction.  Failure to do this will cause great instability and will likely damage your OpenDrono or yourself. 
+```c
+    frontRightSpeed = heightPower - rollPower - pitchPower - yawPower;
+    frontLeftSpeed = heightPower + rollPower - pitchPower + yawPower;
+    backRightSpeed = heightPower - rollPower + pitchPower + yawPower;
+    backLeftSpeed = heightPower + rollPower + pitchPower - yawPower; 
+
+```
+
+
+
