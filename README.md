@@ -1,10 +1,11 @@
 # OpenDrono
 
+This project contains all of the CAD and Code required to build 'OpenDrono'
+
+
 ![Cad Screenshot](https://user-images.githubusercontent.com/19732253/102841461-fd7db800-43d2-11eb-9e32-441be6bba056.PNG)
 https://cad.onshape.com/documents/5a39f1ee6e81977bc9495c99/w/998eaf910537d694b83bb4dd/e/3f6d457c204f112068c093ae
 
-
-A Free to use, Fully Open Sourced UAV
 
 This project also contains gerber files for making the OpenDrono Printed Circuit Board.  This helps ensure wiring is cleaner and disconnections occur less often.  
 ![Cad Screenshot](https://user-images.githubusercontent.com/19732253/102846319-a6311500-43dd-11eb-8b7d-f3f5aee82713.PNG)
