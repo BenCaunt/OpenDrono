@@ -21,4 +21,4 @@ This project is in its infancy and nearly everything is subject to massive overh
 - [ ] Implement distance sensor for elevation control  
 - [ ] Brainstorm localization methods 
 - [ ] Brainstorm perception methods (CV, distance sensors, etc) 
-- [ ] Machine learning control system? 
+- [ ] Implement Model Predictive Controller 
