@@ -6,4 +6,4 @@ https://cad.onshape.com/documents/5a39f1ee6e81977bc9495c99/w/998eaf910537d694b83
 
 
 # Disclaimer 
-This project is in its infancy and nearly everything is subject to rapid changes
+This project is in its infancy and nearly everything is subject to massive overhauls
